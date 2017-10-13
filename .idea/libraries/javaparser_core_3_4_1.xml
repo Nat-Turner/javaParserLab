@@ -2,6 +2,7 @@
   <library name="javaparser-core-3.4.1">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/javaparser-core-3.4.1.jar!/" />
+      <root url="jar://S:/system/Windows/Downloads/javaparser-core-3.4.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

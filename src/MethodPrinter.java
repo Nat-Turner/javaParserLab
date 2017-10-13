@@ -45,7 +45,7 @@ public class MethodPrinter {
             /* here you can access the attributes of the method.
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
-            System.out.println(n.getName());
+           // System.out.println(n.getName());
             ++methods;
             super.visit(n, arg);
         }
@@ -56,13 +56,16 @@ public class MethodPrinter {
 
         public void visit(ClassOrInterfaceDeclaration n, Object arg){
            Class c= n.getClass();
-                    System.out.println( " "+ n.getExtendedTypes().getClass());
-                    System.out.println(n.getClass());
-                    System.out.println(n.getChildNodes());
+                  //  System.out.println( " "+ n.getExtendedTypes().getClass());
+                  //  System.out.println(n.getClass());
+            if(n.getParentNode().get() instanceof ClassOrInterfaceDeclaration){
+               // System.out.println(n.getParentNode().get());
+            }
             while(c.getSuperclass()!=null){
                // System.out.println(c.getSuperclass());
                 c = c.getSuperclass();
                 ++depth;
+
             }
             super.visit(n, arg);
         }
