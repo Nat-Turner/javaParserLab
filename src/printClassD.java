@@ -111,15 +111,19 @@ public class printClassD {
                 if (n.getElementType().asString().equals(S)) {
                     System.out.println("Relationship with " + S + ".java class");
                    // System.out.println( n );
-
+                    new interaction().visit(n, null);
                 }
 
             }
         }
-        public void visit (MethodCallExpr n ,Object a){
+
+    }
+    private static class interaction extends VoidVisitorAdapter {
+        public void visit(MethodCallExpr n, Object a) {
             System.out.println(n.getName());
             System.out.println(n.asMethodCallExpr());
             System.out.println(n.getScope());
+
         }
     }
 }
