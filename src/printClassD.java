@@ -20,22 +20,39 @@ public class printClassD {
     public static List<String> classNames = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        File folder = new File("testing/");
+        File folder = new File("testing/Stego.java");
         FileInputStream in;
         CompilationUnit cu;
         // List<String> classNames = new ArrayList<>();
-        for (final File javaFile : folder.listFiles()) {
-            in = new FileInputStream(javaFile.getPath());
-            try {
-                cu = JavaParser.parse(in);
-            } finally {
-                in.close();
+        if(folder.isDirectory()) {
+            for (final File javaFile : folder.listFiles()) {
+                in = new FileInputStream(javaFile.getPath());
+                try {
+                    cu = JavaParser.parse(in);
+                } finally {
+                    in.close();
+                }
+                new classNameCVisitor().visit(cu, null);
             }
-            new classNameCVisitor().visit(cu, null);
-        }
 
-        for (final File javaFile : folder.listFiles()) {
-            in = new FileInputStream(javaFile.getPath());
+            for (final File javaFile : folder.listFiles()) {
+                in = new FileInputStream(javaFile.getPath());
+                try {
+                    cu = JavaParser.parse(in);
+                } finally {
+                    in.close();
+                }
+
+                System.out.println("/*******************/");
+                new ClassDiagramVisitor().visit(cu, null);
+                System.out.println("");
+                System.out.println("/*******************/");
+                new methodVisitor().visit(cu, null);
+                System.out.println("");
+            }
+        }
+        else {
+            in = new FileInputStream(folder);
             try {
                 cu = JavaParser.parse(in);
             } finally {
@@ -81,7 +98,7 @@ public class printClassD {
 
     private static class classNameCVisitor extends VoidVisitorAdapter {
         public void visit(ClassOrInterfaceDeclaration n, Object arg) {
-            System.out.println(" names of classes" + n.getNameAsString());
+
             classNames.add(n.getNameAsString());
         }
     }
@@ -90,6 +107,9 @@ public class printClassD {
 
         public void visit(ClassOrInterfaceDeclaration n, Object arg) {
 
+            if(n.isInterface()){
+                System.out.println("<<Interface>>");
+            }
             System.out.println("Class Name: " + n.getName());
             System.out.println("");
             System.out.print("Class Implements: ");
@@ -105,10 +125,12 @@ public class printClassD {
         }
 
         public void visit(VariableDeclarationExpr n, Object a) {
-            System.out.println("");
+
+
             for (String S : classNames) {
 
                 if (n.getElementType().asString().equals(S)) {
+                    System.out.println("");
                     System.out.println("Relationship with " + S + ".java class");
                    // System.out.println( n );
                     new interaction().visit(n, null);
