@@ -1,5 +1,6 @@
 public class Job {
     Worker employee;
+    int a;
     public job ( ){
         employee = new Worker();
     }

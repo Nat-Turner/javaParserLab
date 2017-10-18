@@ -20,7 +20,7 @@ public class printClassD {
     public static List<String> classNames = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        File folder = new File("testing/Stego.java");
+        File folder = new File("testingCase1.1/");
         FileInputStream in;
         CompilationUnit cu;
         // List<String> classNames = new ArrayList<>();
@@ -73,6 +73,7 @@ public class printClassD {
     private static class methodVisitor extends VoidVisitorAdapter {
         @Override
         public void visit(MethodDeclaration n, Object arg) {
+
             if (n.isPublic()) {
                 System.out.print(" + ");
             }
