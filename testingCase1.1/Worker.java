@@ -8,7 +8,7 @@ public class Worker {
 
     public void assign(Job j) {
         Job tempJob = j;
-
+        setEmotion("happy");
         tempJob.setDefaultiy("easy");
     }
 }

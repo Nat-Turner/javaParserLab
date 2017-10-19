@@ -15,36 +15,38 @@ public class main {
         File folder = new File("testingCase1.1/");
         List<File> allFiles = getAllFiles(folder);
 
-        FileInputStream in=null;
+        FileInputStream in;
         CompilationUnit cu = null;
         className name = new className();
-        WMC wmc = new WMC();
-        DIT dit= new DIT(folder.getPath(),allFiles);
-        NOC noc = new NOC(allFiles);
         for (final File javaFile :allFiles) {
+
+            WMC wmc = new WMC();
+            DIT dit= new DIT(folder.getPath(),allFiles);
 
             try {
                 in = new FileInputStream(javaFile.getPath());
+                cu = JavaParser.parse(in);
+                in.close();
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            try {
-                cu = JavaParser.parse(in);
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
             name.visit(cu,null);
             System.out.println("Class Name :" + name.getClassName());
             wmc.visit(cu, null);
             System.out.println("WMC :" +wmc.methodCount());
             dit.visit(cu,null);
             System.out.println("DIT :"+dit.getDepth());
-            noc.visit(cu,null);
+
+            NOC noc = new NOC(allFiles,name.getClassName());
             System.out.println("NoC : "+ noc.getNoC());
+
+            RFC rfc = new RFC(wmc.methodCount());
+            rfc.visit(cu,null);
+            System.out.println("RFC : " + rfc.getRFC());
         }
 
     }

@@ -5,9 +5,11 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 
 public  class WMC extends VoidVisitorAdapter<Void> {
-    static int methods=0;
+    static int methods;
 
-
+    public WMC(){
+        methods=0;
+    }
     @Override
     public void visit(MethodDeclaration n, Void arg) {
 
@@ -16,8 +18,7 @@ public  class WMC extends VoidVisitorAdapter<Void> {
     }
 
     public int methodCount(){
-        int tempCount= methods;
-        methods=0;
-        return tempCount;
+
+        return methods;
     }
 }

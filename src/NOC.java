@@ -16,12 +16,12 @@ public class NOC extends  VoidVisitorAdapter<Void> {
     public List<String> extendsList= new ArrayList<>();
     public List<File> allFiles=new ArrayList<>();
     public String currentClass="";
-    public boolean visitedOnce = false;
 
-    public NOC(List<File> allf) {
+    public NOC(List<File> allf, String className) {
         FileInputStream in = null;
         CompilationUnit cu = null;
         allFiles = allf;
+        currentClass=className;
         for (File f : allf) {
             allFileNames.add(f.getName().toString());
 
@@ -30,26 +30,21 @@ public class NOC extends  VoidVisitorAdapter<Void> {
 
             try {
                 in = new FileInputStream(javaFile.getPath());
+                cu = JavaParser.parse(in);
+                in.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            try {
-                cu = JavaParser.parse(in);
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
                 visit(cu,null);
         }
-        visitedOnce=true;
+
     }
     @Override
     public void visit(ClassOrInterfaceDeclaration n, Void arg) { //broken
 
-       if(visitedOnce==false) {
            if (n.getExtendedTypes().isNonEmpty()) {
                int i = 0;
                while (i < n.getExtendedTypes().size()) {
@@ -59,18 +54,16 @@ public class NOC extends  VoidVisitorAdapter<Void> {
                }
 
            }
-       }
-       else currentClass=n.getNameAsString();
        super.visit(n, arg);
     }
 
     public int getNoC(){
         int children=0;
-       for(String child : extendsList){
+         for(String child : extendsList){
            if(child.equals(currentClass)){
                ++children;
            }
-       }
+         }
         return children;
     }
 
