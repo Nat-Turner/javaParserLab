@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="javaParserLab1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/javaParserLab1_jar</output-path>
+    <root id="archive" name="javaParserLab.jar">
+      <element id="module-output" name="javaParserLab" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/javaparser-core-3.4.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="javaparser-core-3.4.1-javadoc" />
+    </root>
+  </artifact>
+</component>
