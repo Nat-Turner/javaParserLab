@@ -30,6 +30,7 @@ public class DIT extends VoidVisitorAdapter<Void> {
             int i = 0;
            while( i<n.getExtendedTypes().size()){
                File f = new File(currentDir+"/"+n.getExtendedTypes().get(i).asString()+".java");
+
                if(!(allFiles.contains(f))){
 
                    depth=2; // unrecognised extended class but will also inherit from System.object
@@ -46,12 +47,14 @@ public class DIT extends VoidVisitorAdapter<Void> {
                visit(cu,null);
                ++i;
            }
+
            ++depth;
         }
         super.visit(n, arg);
     }
 
     public int getDepth(){
+
         return depth;
     }
 }

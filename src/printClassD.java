@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -20,12 +21,17 @@ public class printClassD {
     public static List<String> classNames = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        File folder = new File("testingCase1.1/");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a file Path :");
+        String n = input.next();
+        input.close();
+        System.out.println("");
+        File folder = new File(n);
         FileInputStream in;
         CompilationUnit cu;
-        // List<String> classNames = new ArrayList<>();
-        if(folder.isDirectory()) {
-            for (final File javaFile : folder.listFiles()) {
+
+        List<File> allFiles = getAllFiles(folder);
+            for ( File javaFile :allFiles) {
                 in = new FileInputStream(javaFile.getPath());
                 try {
                     cu = JavaParser.parse(in);
@@ -35,7 +41,7 @@ public class printClassD {
                 new classNameCVisitor().visit(cu, null);
             }
 
-            for (final File javaFile : folder.listFiles()) {
+            for (final File javaFile : allFiles) {
                 in = new FileInputStream(javaFile.getPath());
                 try {
                     cu = JavaParser.parse(in);
@@ -50,22 +56,6 @@ public class printClassD {
                 new methodVisitor().visit(cu, null);
                 System.out.println("");
             }
-        }
-        else {
-            in = new FileInputStream(folder);
-            try {
-                cu = JavaParser.parse(in);
-            } finally {
-                in.close();
-            }
-
-            System.out.println("/*******************/");
-            new ClassDiagramVisitor().visit(cu, null);
-            System.out.println("");
-            System.out.println("/*******************/");
-            new methodVisitor().visit(cu, null);
-            System.out.println("");
-        }
 
 
     }
@@ -148,6 +138,21 @@ public class printClassD {
             System.out.println(n.getScope());
 
         }
+    }
+
+    public static List<File> getAllFiles(final File folder) {
+        List<File> files = new ArrayList<>();
+
+        for (final File f : folder.listFiles()) {
+
+            if (f.isFile()) {
+                files.add(f);
+
+            } else {
+                files.addAll(getAllFiles(f));
+            }
+        }
+        return files;
     }
 }
 

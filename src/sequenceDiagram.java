@@ -24,7 +24,12 @@ public class sequenceDiagram {
 
 
     public static void main(String[] args) throws Exception {
-        File folder = new File("testcode/");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a file Path :");
+        String n = input.next();
+        input.close();
+
+        File folder = new File(n);
 
         visitFiles(new classNameCVisitor(),folder);
         visitFiles(new ClassDiagramVisitor(),folder);

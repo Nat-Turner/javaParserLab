@@ -7,12 +7,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class main {
 
 
     public static void main(String[] args)  {
-        File folder = new File("testingCase1.1/");
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a file Path :");
+        String n = input.next();
+        input.close();
+
+
+        File folder = new File(n);
         List<File> allFiles = getAllFiles(folder);
 
         FileInputStream in;
@@ -42,11 +50,11 @@ public class main {
             System.out.println("DIT :"+dit.getDepth());
 
             NOC noc = new NOC(allFiles,name.getClassName());
-            System.out.println("NoC : "+ noc.getNoC());
+            System.out.println("NoC :"+ noc.getNoC());
 
-            RFC rfc = new RFC(wmc.methodCount());
+            RFC rfc = new RFC();
             rfc.visit(cu,null);
-            System.out.println("RFC : " + rfc.getRFC());
+            System.out.println("RFC :" + rfc.getRFC());
         }
 
     }

@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.BitSet;
 
-public class main {
+public class maintesing2 {
 
     public static void main(String args[]){
         Stego s = new Stego();
